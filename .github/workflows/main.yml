@@ -38,3 +38,13 @@ jobs:
       # Build ROS2 packages using colcon
       - name: Build packages
         run: colcon build
+
+      # Deploy packages to Raspberry Pi
+      - name: Deploy packages to Raspberry Pi
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PI_HOST }} # Raspberry Pi IP address or hostname
+          username: ${{ secrets.PI_USERNAME }} # Raspberry Pi username
+          password: ${{ secrets.PI_PASSWORD }} # Raspberry Pi password
+          script: |
+            scp -r onboard_pkgs/* ${{ secrets.PI_USERNAME }}@${{ secrets.PI_HOST }}:~/robot_ws/src/
