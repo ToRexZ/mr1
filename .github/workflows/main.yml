@@ -1,23 +1,57 @@
-name: C/C++ CI
+name: mr1_build
 
-on: 
+on:
+  # Trigger when commits are pushed to the main branch
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+
+  # Trigger when a pull request is opened against the main branch
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
+    types: [opened]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    # Create a container of ubuntu-22.04
+    runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/checkout@v3
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+      - name: Install ROS2 Humble packages
+        run: |
+          sudo apt update
+          sudo apt install -y software-properties-common
+          sudo add-apt-sudo apt update
+          sudo apt install -y software-properties-common
+          sudo add-apt-repository universe
+          sudo apt update && sudo apt install -y curl
+          sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+          sudo apt update
+          sudo apt install -y ros-humble-ros-base python3-colcon-common-extensions
+          sudo apt install -y lcov
+
+      - name: Setup Workspace
+        run: |
+          source /opt/ros/humble/setup.bash
+          mkdir -p ~/ros2_ws/src/mr1
+          cd ~/ros2_ws
+          colcon build
+          source install/setup.bash
+
+      # We want to use GitHub's checkout version 3 action for checkin out the branch
+      - uses: actions/checkout@v3
+        with:
+          path: ~/ros2_ws/src/mr1
+
+      - name: Configure CMake flags and build executables
+        run: |
+          source /opt/ros/humble/setup.bash
+          sudo apt install python3-rosdep
+          sudo rosdep init
+          rosdep update --include-eol-distros
+          cd ~/ros_ws
+          rosdep install --from-paths src -y --ignore-src
+          colcon build --cmake-args -DCOVERAGE=1 --packages-select mr1
+          cat log/latest_build/mr1/stdout_stderr.log
+          find build/mr1/ | grep -E 'gcno' # catch error -- exepct to see .gcno files
