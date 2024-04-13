@@ -50,6 +50,6 @@ jobs:
           rosdep update --include-eol-distros
           cd ~/ros_ws
           rosdep install --from-paths src -y --ignore-src
-          colcon build --cmake-args -DCOVERAGE=1 --packages-select mr1
+          colcon build --cmake-args -DCOVERAGE=1 
           cat log/latest_build/mr1/stdout_stderr.log
           find build/mr1/ | grep -E 'gcno' # catch error -- exepct to see .gcno files
