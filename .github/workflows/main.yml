@@ -33,7 +33,7 @@ jobs:
         run: |
           source /opt/ros/humble/setup.bash
           mkdir -p ~/ros_ws/src/mr1
-          ls -l ~/ros_ws/src/mr1
+          ls ~/ros_ws/src/mr1
           cd ~/ros_ws
           colcon build
           source install/setup.bash
