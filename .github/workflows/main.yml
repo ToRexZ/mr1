@@ -43,7 +43,8 @@ jobs:
       - name: Deploy packages to Raspberry Pi
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.PI_HOST }} # Raspberry Pi IP address or hostname
+          host: 192.168.0.72 # Raspberry Pi IP address or hostname
+          # host: ${{ secrets.PI_HOST }} # Raspberry Pi IP address or hostname
           username: ${{ secrets.PI_USERNAME }} # Raspberry Pi username
           password: ${{ secrets.PI_PASSWORD }} # Raspberry Pi password
           script: |
