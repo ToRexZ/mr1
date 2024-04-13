@@ -33,8 +33,8 @@ jobs:
         run: |
           source /opt/ros/humble/setup.bash
           mkdir -p ~/ros_ws/src/mr1
-          cp -r dev_pkgs onboard_packages ~/ros_ws/src/mr1
           cd ~/ros_ws
+          cp -r dev_pkgs onboard_pkgs ~/ros_ws/src/mr1
           colcon build
           source install/setup.bash
 
