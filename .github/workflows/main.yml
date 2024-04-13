@@ -33,14 +33,18 @@ jobs:
         run: |
           source /opt/ros/humble/setup.bash
           mkdir -p ~/ros_ws/src/mr1
-          cd ~/ros_ws
-          colcon build
-          source install/setup.bash
 
       # We want to use GitHub's checkout version 3 action for checking out the branch
       - uses: actions/checkout@v3
         with:
           path: ~/ros_ws/src/mr1
+
+      - name: Build the workspace
+        run: |
+          source /opt/ros/humble/setup.bash
+          cd ~/ros_ws
+          colcon build --cmake-args -DCOVERAGE=1
+          source install/setup.bash
 
       - name: Configure CMake flags and build executables
         run: |
