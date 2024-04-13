@@ -43,6 +43,13 @@ jobs:
           colcon build --cmake-args -DCOVERAGE=1
           source install/setup.bash
 
+      - name: Visualize mr1 Directory
+        run: |
+          echo "Contents of mr1 directory:"
+          ls -l ~/ros_ws/src/mr1
+          echo "Directory structure of mr1:"
+          tree ~/ros_ws/src/mr1
+
       - name: Configure CMake flags and build executables
         run: |
           source /opt/ros/humble/setup.bash
