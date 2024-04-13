@@ -39,6 +39,10 @@ jobs:
       - name: Build packages
         run: colcon build --packages-up-to dev_test_pkg test_pkg
 
+      - name: Print logs
+        run: |
+          cat log/latest_build/*/stdout_stderr.log
+          find build/*/ | grep -E 'gcno' # catch error -- exepct to see .gcno files
     # steps:
     #   - name: Install ROS2 Humble packages
     #     run: |
