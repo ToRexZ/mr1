@@ -38,6 +38,12 @@ jobs:
         run: |
           source /opt/ros/humble/setup.bash
           mkdir -p ~/ros_ws/src/mr1
+          if [ -d "mr1/dev_pkgs" ] && [ -d "mr1/onboard_pkgs" ]; then
+            cp -r mr1/dev_pkgs/* mr1/onboard_pkgs/* ~/ros_ws/src/mr1
+          else
+            echo "ERROR: 'dev_pkgs' or 'onboard_pkgs' directory not found in 'mr1' or empty."
+            exit 1
+          fi
           cd ~/ros_ws
           colcon build --cmake-args -DCOVERAGE=1
           source install/setup.bash
