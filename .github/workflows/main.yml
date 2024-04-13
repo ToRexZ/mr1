@@ -29,20 +29,17 @@ jobs:
           sudo apt install -y ros-humble-ros-base python3-colcon-common-extensions
           sudo apt install -y lcov
 
-      - name: Setup Workspace
-        run: |
-          source /opt/ros/humble/setup.bash
-          mkdir -p ~/ros_ws/src/mr1
-
       # We want to use GitHub's checkout version 3 action for checking out the branch
       - uses: actions/checkout@v3
         with:
           path: ~/ros_ws/src/mr1
 
-      - name: Build the workspace
+      - name: Setup and Build the workspace
         run: |
           source /opt/ros/humble/setup.bash
+          mkdir -p ~/ros_ws/src/mr1
           cd ~/ros_ws
+          cp -r dev_pkgs/* onboard_pkgs/* ~/ros_ws/src/mr1
           colcon build --cmake-args -DCOVERAGE=1
           source install/setup.bash
 
