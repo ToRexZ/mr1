@@ -39,7 +39,6 @@ jobs:
           source /opt/ros/humble/setup.bash
           mkdir -p ~/ros_ws/src/mr1
           cd ~/ros_ws
-          cp -r dev_pkgs/* onboard_pkgs/* ~/ros_ws/src/mr1
           colcon build --cmake-args -DCOVERAGE=1
           source install/setup.bash
 
