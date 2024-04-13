@@ -14,7 +14,7 @@ on:
 jobs:
   build:
     # Create a container of ubuntu-22.04
-    runs-on: ubuntu-22.04
+    runs-on: self-hosted
 
     steps:
       # Checkout the repository
@@ -39,13 +39,13 @@ jobs:
       - name: Build packages
         run: colcon build
 
-      # Deploy packages to Raspberry Pi
-      - name: Deploy packages to Raspberry Pi
-        uses: appleboy/ssh-action@master
-        with:
-          host: 192.168.0.72 # Raspberry Pi IP address or hostname
-          # host: ${{ secrets.PI_HOST }} # Raspberry Pi IP address or hostname
-          username: ${{ secrets.PI_USERNAME }} # Raspberry Pi username
-          password: ${{ secrets.PI_PASSWORD }} # Raspberry Pi password
-          script: |
-            scp -r onboard_pkgs/* ${{ secrets.PI_USERNAME }}@${{ secrets.PI_HOST }}:~/robot_ws/src/
+      # # Deploy packages to Raspberry Pi
+      # - name: Deploy packages to Raspberry Pi
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: 192.168.0.72 # Raspberry Pi IP address or hostname
+      #     # host: ${{ secrets.PI_HOST }} # Raspberry Pi IP address or hostname
+      #     username: ${{ secrets.PI_USERNAME }} # Raspberry Pi username
+      #     password: ${{ secrets.PI_PASSWORD }} # Raspberry Pi password
+      #     script: |
+      #       scp -r onboard_pkgs/* ${{ secrets.PI_USERNAME }}@${{ secrets.PI_HOST }}:~/robot_ws/src/
