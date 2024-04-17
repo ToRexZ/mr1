@@ -39,6 +39,9 @@ jobs:
       - name: Build packages
         run: colcon build
 
+      - name: Install Packages
+        run: cp -r onboard_pkgs/* ~/robot_ws/src/
+
       # # Deploy packages to Raspberry Pi
       # - name: Deploy packages to Raspberry Pi
       #   uses: appleboy/ssh-action@master
