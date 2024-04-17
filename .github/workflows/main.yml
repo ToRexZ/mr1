@@ -40,7 +40,7 @@ jobs:
       #   run: colcon build
 
       - name: Install Packages
-        run: cp -r onboard_pkgs/* ~/robot_ws/src/
+        run: cp -r onboard_pkgs/ ~/robot_ws/src/
 
       # # Deploy packages to Raspberry Pi
       # - name: Deploy packages to Raspberry Pi
