@@ -1,0 +1,14 @@
+[Unit]
+Description=ROS2 Complete bringup service
+Requires=docker.service
+After=docker.service
+
+[Service]
+RemainAfterExit=yes
+Type=simple
+Restart=always
+RestartSec=5
+ExecStart=/usr/bin/docker run --rm -v ~/robot_ws:/robot_ws your_ros2_image_name
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,26 @@
+# Dockerfile onboard the robot
+FROM ros:humble-ros-base
+
+# Install dependencies
+RUN sudo apt-get updtae && apt-get install -y --no-install-recommends \
+    python3-pip \
+    python3-rosdep \
+    python3-colcon-common-extensions \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# Copy the workspace into the container
+
+
+
+# Workspace inside the container
+WORKDIR /robot_ws
+
+# Copy the entrypoint script into the container
+COPY ../scripts/entrypoint.sh /
+
+# Make the entrypoint script executable
+RUN chmod +x /robot_ws/entrypoint.sh
+
+# execute the entrypoint script
+ENTRYPOINT [ "/entrypoint.sh" ]
